@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Hycube
+ * GeoIP Extension
+ *
+ * @category   Hycube
+ * @package    Hycube_GeoIP
+ * @copyright  Copyright (c) 2015 Hycube (http://www.hycube.com/)
+ */
+-->
+
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <hycube_geoip translate="title" module="hycube_geoip">
+                                        <title>Hycube &gt; GeoIP Extensions</title>
+                                        <sort_order>600</sort_order>
+                                        <children>
+                                            <geoip translate="title">
+                                                <title>GeoIP Database</title>
+                                            </geoip>
+                                        </children>
+                                    </hycube_geoip>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

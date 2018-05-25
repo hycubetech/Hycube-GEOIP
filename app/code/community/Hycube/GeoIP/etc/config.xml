@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Hycube
+ * GeoIP Extension
+ *
+ * @category   Hycube
+ * @package    Hycube_GeoIP
+ * @copyright  Copyright (c) 2015 Hycube (http://www.hycube.com/)
+ */
+-->
+<config>
+    <modules>
+        <Hycube_GeoIP>
+            <version>1.2.3</version>
+        </Hycube_GeoIP>
+    </modules>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Hycube_GeoIP after="Mage_Adminhtml">Hycube_GeoIP_Adminhtml</Hycube_GeoIP>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <frontend>
+        <translate>
+            <modules>
+                <Hycube_GeoIP>
+                    <files>
+                        <default>Hycube_GeoIP.csv</default>
+                    </files>
+                </Hycube_GeoIP>
+            </modules>
+        </translate>
+    </frontend>
+
+    <global>
+        <models>
+            <hycube_geoip>
+                <class>Hycube_GeoIP_Model</class>
+            </hycube_geoip>
+            <mwgeoip>
+                <class>Hycube_GeoIP_Model</class>
+            </mwgeoip>
+        </models>
+        <blocks>
+            <hycube_geoip>
+                <class>Hycube_GeoIP_Block</class>
+            </hycube_geoip>
+            <mwgeoip>
+                <class>Hycube_GeoIP_Block</class>
+            </mwgeoip>
+        </blocks>
+        <helpers>
+            <hycube_geoip>
+                <class>Hycube_GeoIP_Helper</class>
+            </hycube_geoip>
+            <mwgeoip>
+                <class>Hycube_GeoIP_Helper</class>
+            </mwgeoip>
+        </helpers>
+        <resources>
+            <hycube_geoip_setup>
+                <setup>
+                    <module>Hycube_GeoIP</module>
+                </setup>
+            </hycube_geoip_setup>
+        </resources>
+    </global>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <hycube_geoip>
+                    <file>hycube_geoip.xml</file>
+                </hycube_geoip>
+            </updates>
+        </layout>
+        <events>
+            <model_config_data_save_before>
+                <observers>
+                    <hycube_geoip_change_db_type>
+                        <class>hycube_geoip/observer</class>
+                        <method>changeDbTypeAfter</method>
+                    </hycube_geoip_change_db_type>
+                </observers>
+            </model_config_data_save_before>
+            <controller_action_predispatch_adminhtml_system_config_edit>
+                <observers>
+                    <hycube_geoip_add_system_warning>
+                        <class>hycube_geoip/observer</class>
+                        <method>addSystemWarning</method>
+                    </hycube_geoip_add_system_warning>
+                </observers>
+            </controller_action_predispatch_adminhtml_system_config_edit>
+        </events>
+    </adminhtml>
+
+    <default>
+        <hycube_geoip>
+            <geoip>
+                <db_type>1</db_type>
+            </geoip>
+        </hycube_geoip>
+    </default>
+
+    <crontab>
+        <jobs>
+            <geoip_db_update>
+                <schedule>
+                    <cron_expr>0 0 * * 1</cron_expr>
+                </schedule>
+                <run>
+                    <model>hycube_geoip/observer::cronUpdateDatabase</model>
+                </run>
+            </geoip_db_update>
+        </jobs>
+    </crontab>
+</config>
